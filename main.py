@@ -1,46 +1,81 @@
-# this allows us to use code from
-# the open-source pygame library
-# throughout this file
+import sys
 import pygame
 from constants import *
-from player import *
-from circleshape import *
+from player import Player
+from asteroids import Asteroid
+from asteroidfield import AsteroidField
+from shots import Shot
 
-#initialize pygame
+def show_title_screen(screen):
+    font = pygame.font.Font(None, 74)
+    title_text = font.render("Asteroids", True, (255, 255, 255))
+    instructions_text = font.render("Press any key to start", True, (255, 255, 255))
+    quit_text = font.render("Press Q to quit", True, (255, 255, 255))
+
+    screen.fill((0, 0, 0))
+    screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, SCREEN_HEIGHT // 2 - title_text.get_height() // 2 - 50))
+    screen.blit(instructions_text, (SCREEN_WIDTH // 2 - instructions_text.get_width() // 2, SCREEN_HEIGHT // 2 - instructions_text.get_height() // 2 + 50))
+    screen.blit(quit_text, (SCREEN_WIDTH // 2 - quit_text.get_width() // 2, SCREEN_HEIGHT // 2 - quit_text.get_height() // 2 + 150))
+    pygame.display.flip()
+
+    waiting = True
+    while waiting:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    pygame.quit()
+                    sys.exit()
+                if event.key == pygame.K_SPACE:
+                    waiting = False
+
+
 def main():
     pygame.init()
-    clock = pygame.time.Clock()
-    dt = clock.tick(60) / 1000
-    x = SCREEN_WIDTH / 2
-    y = SCREEN_HEIGHT / 2
-    player = Player(x, y)
-    print("Starting asteroids!")
-    print(f"Screen width: {SCREEN_WIDTH}")
-    print(f"Screen height: {SCREEN_HEIGHT}")
-
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    clock = pygame.time.Clock()
 
-    # dividing game objects into two groups
+    show_title_screen(screen)
+
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
-    updatable.add(player)
-    drawable.add(player)
+    asteroids = pygame.sprite.Group()
+    shots = pygame.sprite.Group()
 
-    while True:  # Infinite loop
-        pygame.Surface.fill(screen, (0, 0, 0))
+    Asteroid.containers = (asteroids, updatable, drawable)
+    Shot.containers = (shots, updatable, drawable)
+    AsteroidField.containers = updatable
+    asteroid_field = AsteroidField()
 
-        #iterate over updatable and drawable objects within the game loop
-        for player in updatable:
-            player.update(dt)
-        for player in drawable:
-            player.draw(screen)
+    Player.containers = (updatable, drawable)
 
-        clock.tick(60)
+    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+
+    dt = 0
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return
+
+        for obj in updatable:
+            obj.update(dt)
+
+        for asteroid in asteroids:
+            if asteroid.collides_with(player):
+                show_title_screen(screen)
+            for shot in shots:
+                if shot.collides_with(asteroid):
+                    asteroid.split()
+                    shot.kill()
+
+        screen.fill("black")
+
+        for obj in drawable:
+            obj.draw(screen)
+
         pygame.display.flip()
-        for event in pygame.event.get(): # listening for events
-            if event.type == pygame.QUIT: # if close window button is clicked
-                return # closes pygame window
-                
+
+        dt = clock.tick(60) / 1000
 
 
 if __name__ == "__main__":
