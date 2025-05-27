@@ -14,6 +14,12 @@ git clone <your-repo-url>
 cd asteroids
 ```
 
+OR (if you have GitHub CLI)
+
+```sh
+gh repo clone isaacjstriker/maze_solver
+```
+
 Create a virtual environment (optional but recommended):
 
 ```sh
