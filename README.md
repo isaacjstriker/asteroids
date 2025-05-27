@@ -1,6 +1,6 @@
 ## Asteroids
 This is a simple Asteroids game implemented in Python using Pygame.
-It is my first project for Boot.dev!
+It's my first project for Boot.dev!
 
 ## Technologies Used
 - Python 3
@@ -38,5 +38,5 @@ python main.py
 - Press Space to shoot.
 - Avoid asteroids and try to survive as long as possible!
 
-
+## 
 Enjoy playing, and thanks for checking out my first Boot.dev project!
