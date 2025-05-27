@@ -17,7 +17,7 @@ cd asteroids
 OR (if you have GitHub CLI)
 
 ```sh
-gh repo clone isaacjstriker/maze_solver
+gh repo clone isaacjstriker/asteroids
 ```
 
 Create a virtual environment (optional but recommended):
