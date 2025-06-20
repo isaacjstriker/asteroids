@@ -1,6 +1,6 @@
 ## Asteroids
 This is a simple Asteroids game implemented in Python using Pygame.
-It's my first project for Boot.dev!
+It's my second project for Boot.dev!
 
 ## Technologies Used
 - Python 3
