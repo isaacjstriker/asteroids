@@ -45,4 +45,4 @@ python main.py
 - Avoid asteroids and try to survive as long as possible!
 
 ## 
-Enjoy playing, and thanks for checking out my first Boot.dev project!
+Enjoy playing, and thanks for checking out my project!
