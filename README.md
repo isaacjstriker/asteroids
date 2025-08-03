@@ -10,7 +10,7 @@ It's my second project for Boot.dev!
 Clone the repository:
 
 ```sh
-git clone <your-repo-url>
+git clone https://github.com/isaacjstriker/asteroids
 cd asteroids
 ```
 
